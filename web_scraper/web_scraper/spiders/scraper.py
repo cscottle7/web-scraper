@@ -4,9 +4,11 @@ import scrapy
 class ScraperSpider(scrapy.Spider):
     name = "scraper"
 
-    def __init__(self, url=None, *args, **kwargs):
+    def __init__(self, file=None, *args, **kwargs):
         super(ScraperSpider, self).__init__(*args, **kwargs)
-        self.start_urls = [url]
+        if file:
+            with open(file, 'r') as f:
+                self.start_urls = [line.strip() for line in f.readlines()]
 
     def parse(self, response):
         # Extract text from body, excluding script and style tags
